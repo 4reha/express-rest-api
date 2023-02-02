@@ -2,7 +2,7 @@ import prisma from "../db";
 
 
 // GetALL
-export const getProducts = async (req, res) =>{
+export const getProducts = async (req, res) =>{	
 	const user = await prisma.user.findUnique({
 		where:	{
 			id : req.user.id
@@ -52,13 +52,18 @@ export const updateProduct = async (req, res) => {
 };
 
 export const deleteProduct = async (req, res) => {
-	const deleted = await prisma.product.delete({
-		where:	{
-			id_belongsToId:	{
-				id:	req.params.id,
-				belongsToId:	req.user.id
+	try	{
+		const deleted = await prisma.product.delete({
+			where:	{
+				id_belongsToId:	{
+					id:	req.params.id,
+					belongsToId:	req.user.id
+				}
 			}
-		}
-	});
-	res.json({data: deleted})
+		});
+		res.json({data: deleted})
+	}	catch (e)	{
+		res.status(404);
+		res.json({message: 'Not found'})
+	}
 };

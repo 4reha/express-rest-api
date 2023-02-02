@@ -12,6 +12,9 @@ const  router = Router();
 router.get('/product', getProducts);
 router.post("/product/", body("name").isString(), handleInputErrors, createProduct);
 router.get('/product/:id', getOneProduct);
+router.post('/product/:id', async (req, res) => {
+	return res.status(405).json({ message: 'Method not allowed' });
+});
 router.put("/product/:id", body("name").isString(), handleInputErrors, updateProduct);
 router.delete('/product/:id', deleteProduct);
 
@@ -20,15 +23,15 @@ router.delete('/product/:id', deleteProduct);
  */
 router.get('/update', getUpdates);
 router.post('/update/',
-	body('title').exists().isString(),
-	body('body').exists().isString(), 
-	body('productId').exists().isString() , createUpdate);
+	body('title').isString(),
+	body('body').isString(), 
+	body('productId').isString() , handleInputErrors, createUpdate);
 router.get('/update/:id', getOneUpdate);
 router.put('/update/:id',
 	body('title').optional(),
 	body('body').optional(),
 	body('status').isIn(['IN_PROGRESS', 'SHIPPED', 'DEPRECATED']).optional(),
-	body('version').optional(), updateUpdate);
+	body('version').optional(), handleInputErrors, updateUpdate);
 router.delete('/update/:id', deleteUpdate);
 	
 

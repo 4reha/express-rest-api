@@ -9,17 +9,14 @@ export const createNewUser = async (req, res, next) => {
 				password: await hashPassword(req.body.password)
 			},
 		});
-
 		const token = createJWT(user);
 		res.json({ token });
 	} catch(e) {
-		// console.error(e);
-		res.status(400);
-		res.json({ message: 'Username already taken' });
+		e.status = 400;
+		e.message = 'Username already taken';
 		next(e);
 		return
 	};
-
 };
 
 export const signin = async (req, res) => {

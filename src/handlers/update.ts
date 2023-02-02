@@ -18,7 +18,6 @@ export const getUpdates = async (req, res) => {
 			updates: true
 		}
 	});
-	// console.log(products);
 	const updates = products.reduce((allUpdates, product) => {
 		return [...allUpdates, ...product.updates];
 	}, []);
@@ -55,7 +54,6 @@ export const updateUpdate = async (req, res) => {
 			updates: true
 		}
 	});
-	// console.log(products);
 	const updates = products.reduce((allUpdates, product) => {
 		return [...allUpdates, ...product.updates];
 	}, []);
@@ -84,7 +82,6 @@ export const deleteUpdate = async (req, res) => {
 			updates: true
 		}
 	});
-	// console.log(products);
 	const updates = products.reduce((allUpdates, product) => {
 		return [...allUpdates, ...product.updates];
 	}, []);

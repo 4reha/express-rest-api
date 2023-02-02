@@ -2,6 +2,8 @@ import express from 'express';
 import router from './router';
 import morgan from 'morgan';
 import { protect } from './modules/auth';
+import { body, oneOf, validationResult } from "express-validator";
+import { handleInputErrors } from './modules/middleware';
 import { createNewUser, signin } from './handlers/user';
 
 const app = express();
@@ -11,21 +13,38 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
-  res.json({"message": "hello"});
+  res.json({"message": "Welcome"});
   res.status(200);
+});
+app.post('/', async (req, res) => {
+  res.status(405);
+  res.json({ message: 'Method not allowed' });
+  return;
 });
 
 app.use('/api', protect, router);
-app.post('/user', createNewUser);
-app.post('/signin', signin);
+app.post('/user', 
+  body('username').exists().isString(),
+  body('password').exists().isString(),
+  handleInputErrors, createNewUser);
+app.get('/user', async (req, res) => {
+  res.status(405);
+  res.json({ message: 'Method not allowed' });
+  return;
+});
+app.post('/signin', 
+  body('username').exists().isString(),
+  body('password').exists().isString(),
+  handleInputErrors, signin);
+app.get('/signin', async (req, res) => {
+  res.status(405);
+  res.json({ message: 'Method not allowed' });
+  return;
+});
 
 app.use((err, req, res, next) => {
-  if (err.type === 'auth') {
-    res.status(401).json({ message: 'Unauthorized' });
-  } else if (err.type === 'input') {
-    res.status(400).json({ message: 'invalid input' });
-  } else {
-    res.status(500).json({ message: 'Oops, that\'s on us' });
-  }
+  res.status(err.status);
+  res.json({ message: err.message });
+  return;
 });
 export default app;
