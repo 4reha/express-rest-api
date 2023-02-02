@@ -26,5 +26,5 @@ for Creating/Getting/Updating/deleting an Update:
 `GET https://express-rest-api-avn6.onrender.com/api/update`  
 `GET https://express-rest-api-avn6.onrender.com/api/update/:id`  
 `PUT https://express-rest-api-avn6.onrender.com/api/update/:id`  
-`DELETE https://express-rest-api-avn6.onrender.com/api/update/:id`
+`DELETE https://express-rest-api-avn6.onrender.com/api/update/:id`  
 Required info: `{"title":"string", "body":"string", "productId":"string"}` (only for post and and optional for put methods)
