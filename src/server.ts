@@ -24,8 +24,8 @@ app.post('/', async (req, res) => {
 
 app.use('/api', protect, router);
 app.post('/user', 
-  body('username').exists().isString(),
-  body('password').exists().isString(),
+  body('username').isString(),
+  body('password').isString(),
   handleInputErrors, createNewUser);
 app.get('/user', async (req, res) => {
   res.status(405);
@@ -33,8 +33,8 @@ app.get('/user', async (req, res) => {
   return;
 });
 app.post('/signin', 
-  body('username').exists().isString(),
-  body('password').exists().isString(),
+  body('username').isString(),
+  body('password').isString(),
   handleInputErrors, signin);
 app.get('/signin', async (req, res) => {
   res.status(405);
